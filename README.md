@@ -1,5 +1,54 @@
 # Round Robin simulator
 
+
+**Notes:**
+
+1. This round robin sceduler checks for arriving processes every second to put in the ready queue. The information of arrival and burst time of all the processes is not present beforehand.
+2. If the simulation detects that an existing process completes it's time slice at the same time as a new process arrives, The existing process is inserted in the ready queue before inserting the newly arriving process.
+
+**Process block**
+``` c++
+struct Process {
+    // Process ID, consecutively numbered starting with 0
+    int id = -1;
+    // Arrival time of the process, arrival_time >= 0
+    int64_t arrival_time = -1;
+    // Burst time > 0
+    int64_t burst = -1;
+
+    // set this to the the time point where the process started executing
+    // on the CPU
+    int64_t start_time = -1;
+    // set this to the time point when the process finishe executing
+    int64_t finish_time = -1;
+};
+
+```
+**Scheduled process block states**
+
+```c++
+struct Process_State {
+  struct Process *process;
+  int64_t rem_burst_t;
+  bool completed;
+  bool added_to_queue;
+  Process_State(struct Process &process) {
+    this->process = &process;
+    this->rem_burst_t = process.burst;
+    this->completed = this->added_to_queue = false;
+    this->process->start_time = this->process->finish_time = INVALID_TIME;
+  }
+};
+
+```
+
+Assumptions:
+
+1. Input processes are sorted by their arrival time, in ascending order.
+2. Processes arriving at the same time are put in the ready queue in the same order as they are listed
+3. Process ID's start with 0 and increment by 1
+4. Range of all params - `[ 1 ... 2^62 ]`
+
 To compile all code, type:
 ```
 $ make
@@ -9,6 +58,8 @@ To run the resulting code on file test1.txt with quantum=3 and max. execution se
 ```
 $ ./scheduler 3 20 < test1.txt
 ```
+* Quantum time means what slice of time should be given to a process in an iteration
+* Max execution sequence length means how much length of output process execution should be printed on the terminal. If no process is executed in a time frame, output -1
 
 ## Test files
 
