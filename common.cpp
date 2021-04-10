@@ -46,38 +46,6 @@ std::string stdin_readline()
     return result;
 }
 
-std::string join(const VS& toks, const std::string& sep)
-{
-    std::string res;
-    bool first = true;
-    for (auto& t : toks) {
-        res += (first ? "" : sep) + t;
-        first = false;
-    }
-    return res;
-}
-
-std::string simplify(const std::string& str) { return join(split(str)); }
-
-bool is_alnum(const std::string& str)
-{
-    for (int c : str)
-        if (!isalnum(c))
-            return false;
-    return true;
-}
-
-int Word2Int::get(const std::string& w)
-{
-    auto f = myset.find(w);
-    if (f == myset.end()) {
-        myset[w] = counter;
-        counter++;
-        return counter - 1;
-    }
-    return f->second;
-}
-
 struct Timer::Pimpl {
     std::chrono::time_point<std::chrono::steady_clock> start;
 };
