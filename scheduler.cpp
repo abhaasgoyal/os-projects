@@ -1,11 +1,7 @@
-// you need to modify this file
-
 #include "scheduler.h"
 #include "common.h"
 #include <iostream>
 #include <queue>
-// this is the function you should edit
-//
 // runs Round-Robin scheduling simulator
 // input:
 //   quantum = time slice
