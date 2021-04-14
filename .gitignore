@@ -1,4 +1,4 @@
-**/dir-locals.el
+**/.dir-locals.el
 **/*.o
 **/memsim
 **/fatsim
