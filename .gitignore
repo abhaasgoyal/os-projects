@@ -1,0 +1,5 @@
+**/dir-locals.el
+**/*.o
+**/memsim
+**/fatsim
+**/scheduler
